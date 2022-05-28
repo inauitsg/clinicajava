@@ -1,4 +1,4 @@
-/*package com.aulas.rest.servicos;
+package com.aulas.rest.servicos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,4 +57,3 @@ public class MedicoService {
 		repo.deleteById(idmedico);
 	}
 }
-*/

@@ -15,8 +15,6 @@ public class Especialidade {
 	private int id;
 	private String especialidade;
 	
-	@OneToMany
-	private List<Medico> medico;
 
 	public int getId() {
 		return id;
@@ -34,19 +32,10 @@ public class Especialidade {
 		this.especialidade = especialidade;
 	}
 
-	public List<Medico> getMedico() {
-		return medico;
-	}
-
-	public void setMedico(List<Medico> medico) {
-		this.medico = medico;
-	}
-
-	public Especialidade(int id, String especialidade, List<Medico> medico) {
+	public Especialidade(int id, String especialidade)  {
 		this.id = id;
 		this.especialidade = especialidade;
-		this.medico = medico;
-	}
+		}
 
 	public Especialidade() {
 

@@ -1,1 +1,0 @@
-insert into medico(especialidade, nome, crm, telefone, dias)values('oftalmo','Maria','1234','33333333','quinta');
