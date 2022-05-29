@@ -36,15 +36,15 @@ public class MedicoService {
 	
 	public MedicoDTO pegarMedico(int idmedico) {
 	  Optional<Medico> obj = repo.findById(idmedico);	
-	  Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Usuário não encontrado."));
+	  Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Médico não encontrado."));
 	  return new MedicoDTO(med);
 	}
 	
 	public MedicoDTO alterar(int idmedico, Medico medico) {
 		Optional<Medico > obj = repo.findById(idmedico);
-		Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Usuário não encontrado."));
+		Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Médico não encontrado."));
 	
-		med.setEspecialidade(medico.getEspecialidade());
+		//med.setEspecialidade(medico.getEspecialidade());
 		med.setNome(medico.getNome());
 		med.setCrm(medico.getCrm());
 		med.setTelefone(medico.getTelefone());
