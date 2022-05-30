@@ -24,33 +24,33 @@ public class MedicoService {
 		List<MedicoDTO> medicosDTO = new ArrayList<>();		
 		
 		for(Medico med : medicos) {
-			medicosDTO.add(new MedicoDTO(med));
+			medicosDTO.add(new MedicoDTO(med, med.getEspecialidade()));
 		}		
 		return medicosDTO;
 	}
 	
 	public MedicoDTO salvar(Medico medico) {
 		Medico med = repo.save(medico);
-		return new MedicoDTO(med);
+		return new MedicoDTO(med, med.getEspecialidade());
 	}
 	
 	public MedicoDTO pegarMedico(int idmedico) {
 	  Optional<Medico> obj = repo.findById(idmedico);	
 	  Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Médico não encontrado."));
-	  return new MedicoDTO(med);
+	  return new MedicoDTO(med, med.getEspecialidade());
 	}
 	
 	public MedicoDTO alterar(int idmedico, Medico medico) {
 		Optional<Medico > obj = repo.findById(idmedico);
 		Medico med = obj.orElseThrow(() -> new RecursoNaoEncontrado("Médico não encontrado."));
 	
-		//med.setEspecialidade(medico.getEspecialidade());
+		med.setEspecialidade(medico.getEspecialidade());
 		med.setNome(medico.getNome());
 		med.setCrm(medico.getCrm());
 		med.setTelefone(medico.getTelefone());
 		med.setDias(medico.getDias());
 		med = repo.save(med);
-		return new MedicoDTO(med);
+		return new MedicoDTO(med, med.getEspecialidade());
 	}
 	
 	public void excluir(int idmedico) {

@@ -1,24 +1,34 @@
 package com.aulas.rest.dto;
 
+import java.time.Instant;
+
+import com.aulas.rest.entidades.Especialidade;
 import com.aulas.rest.entidades.Medico;
 
 public class MedicoDTO {
 	//private String especialidade;
-    private String nome;
-    private String crm;
-    private String telefone;
-    private String dias;
-    
-    public MedicoDTO(Medico medico) {
-    	//this.especialidade = medico.getEspecialidade();
+	private Integer id;
+	private String nome;
+	private String crm;
+	private String telefone;
+	private String dias;
+	private Instant createdAT;
+	private Instant updateAT;
+	private EspecialidadeDTO especialidade;
+
+
+	public MedicoDTO(Medico medico, Especialidade especialidadeEntity) {
+		this.id = medico.getId();
 		this.nome = medico.getNome();
 		this.crm = medico.getCrm();
 		this.telefone = medico.getTelefone();
 		this.dias = medico.getDias();
-
+		this.especialidade = new EspecialidadeDTO(especialidadeEntity);
+		this.createdAT = medico.getCreatedAt();
+		this.updateAT = medico.getUpdateAt();
 	}
-    
-	
+
+
 	public MedicoDTO(String especialidade, String nome, String crm, String telefone, String dias) {
 		//this.especialidade = especialidade;
 		this.nome = nome;
@@ -26,12 +36,7 @@ public class MedicoDTO {
 		this.telefone = telefone;
 		this.dias = dias;
 	}
-	/*public String getEspecialidade() {
-		return especialidade;
-	}
-	public void setEspecialidade(String especialidade) {
-		this.especialidade = especialidade;
-	}*/
+
 	public String getNome() {
 		return nome;
 	}
@@ -56,7 +61,44 @@ public class MedicoDTO {
 	public void setDias(String dias) {
 		this.dias = dias;
 	}
-    
-    
 
+
+	public Integer getId() {
+		return id;
+	}
+
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+
+	public Instant getCreatedAT() {
+		return createdAT;
+	}
+
+
+	public void setCreatedAT(Instant createdAT) {
+		this.createdAT = createdAT;
+	}
+
+
+	public Instant getUpdateAT() {
+		return updateAT;
+	}
+
+
+	public void setUpdateAT(Instant updateAT) {
+		this.updateAT = updateAT;
+	}
+
+
+	public EspecialidadeDTO getEspecialidade() {
+		return especialidade;
+	}
+
+
+	public void setEspecialidade(EspecialidadeDTO especialidade) {
+		this.especialidade = especialidade;
+	}
 }

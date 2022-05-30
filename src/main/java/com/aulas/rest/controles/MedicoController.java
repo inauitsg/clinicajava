@@ -44,7 +44,7 @@ public class MedicoController {
 
 	@PutMapping("/{idmedico}")
 	public ResponseEntity<MedicoDTO> alterar(@PathVariable("idmedico") int idmedico, @RequestBody Medico medico) {
-		return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idmedico, medico));
+	 	return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idmedico, medico));
 	}
 
 	@DeleteMapping("/{idmedico}")

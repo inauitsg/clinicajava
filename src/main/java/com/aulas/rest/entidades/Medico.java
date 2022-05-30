@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -23,10 +24,13 @@ public class Medico {
     private String crm;
     private String telefone;
     private String dias;
-    @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+    @Column(name="CREATED_AT", columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant createdAt;
-	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
+	@Column(name="UPDATE_AT",columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant updateAt;
+    @ManyToOne
+    @JoinColumn(name="ESPECIALIDADE_ID")
+    private Especialidade especialidade;
 
 	public Instant getCreatedAt() {
 		return createdAt;
@@ -42,9 +46,6 @@ public class Medico {
 	public void preUpdate() {
 		updateAt = Instant.now();
 	}
-    
-    @ManyToOne
-    private Especialidade especialidade;
     
 	public int getId() {
 		return id;
