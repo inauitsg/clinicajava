@@ -14,16 +14,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.aulas.rest.dto.EspecialidadeDTO;
 import com.aulas.rest.dto.MedicoDTO;
-import com.aulas.rest.entidades.Medico;
+import com.aulas.rest.servicos.EspecialidadeService;
 import com.aulas.rest.servicos.MedicoService;
 
 @RestController
 @RequestMapping("/medico")
 public class MedicoController {
+
 	@Autowired
 	MedicoService service;
 	
+	@Autowired
+	EspecialidadeService especilidadeService;	
 		
 	@GetMapping
 	public ResponseEntity<List<MedicoDTO>> pegaMedicos() {
@@ -37,13 +41,22 @@ public class MedicoController {
 	}
 
 	@PostMapping
-	public ResponseEntity<MedicoDTO> salvar(@RequestBody Medico medico) {
+	public ResponseEntity<MedicoDTO> salvar(@RequestBody MedicoDTO medico) {
+		EspecialidadeDTO especialidade = especilidadeService.buscaPorNome(medico.getEspecialidade().getEspecialidade());
+		medico.setEspecialidade(especialidade);
+		System.out.println("Iniciando os logs");
+		System.out.println("Medico nome: "+medico.getNome());
+		System.out.println("Medico crm: "+medico.getCrm());
+		System.out.println("Medico telefone: "+medico.getTelefone());
+		System.out.println("Medico dias: "+medico.getDias());
+		System.out.println("Especialidade id: "+medico.getEspecialidade().getId());
+		System.out.println("Especialidade nome: "+medico.getEspecialidade().getEspecialidade());
 		MedicoDTO med = service.salvar(medico);
 		return ResponseEntity.status(HttpStatus.CREATED).body(med);
 	}
 
 	@PutMapping("/{idmedico}")
-	public ResponseEntity<MedicoDTO> alterar(@PathVariable("idmedico") int idmedico, @RequestBody Medico medico) {
+	public ResponseEntity<MedicoDTO> alterar(@PathVariable("idmedico") int idmedico, @RequestBody MedicoDTO medico) {
 	 	return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idmedico, medico));
 	}
 
@@ -56,43 +69,4 @@ public class MedicoController {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 		}
 	}
-	
-	/*@GetMapping("/cadastromedicos")
-	public String formMedico(Model model) {
-		model.addAttribute("medico", new Medico());
-		return "cadastromedicos";
-	}
-	
-	@PostMapping("/editarmedicos")
-	public String alterar(@ModelAttribute Medico medico) {
-		repositoryMedico.save(medico);
-		return "redirect:/consultamedicos";
-	}
-	
-	@PostMapping("/cadastromedicos")
-	public String inserir(@ModelAttribute Medico medico) {
-		repositoryMedico.save(medico);
-		return "redirect:/consultamedicos";
-	}
-	
-	@GetMapping("/consultamedicos")
-	public String consulta(Model model) {
-		Iterable<Medico> lista = repositoryMedico.findAll();
-		model.addAttribute("medico", lista);
-		return "consultamedicos";
-	}
-	
-	@GetMapping("/consultamedicos/{idmedico}")
-	public String formEditar(@PathVariable("idmedico") int id, Model model) {
-		Optional<Medico> ct = repositoryMedico.findById(id);
-		model.addAttribute("medico", ct);
-		return "editamedicos";
-	}
-	
-	@GetMapping("/excluir/{idmedico}")
-	public String excluirMedico(@PathVariable("idmedico") int idmedico, Model model) {
-		repositoryMedico.deleteById(idmedico);
-		return "redirect:/consultamedicos";
-	}*/
-
 }

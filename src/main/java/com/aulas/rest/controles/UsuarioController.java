@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.aulas.rest.dto.UsuarioDTO;
-import com.aulas.rest.entidades.Usuario;
 import com.aulas.rest.servicos.UsuarioService;
 
 @RestController
@@ -36,13 +35,13 @@ public class UsuarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<UsuarioDTO> salvar(@RequestBody Usuario usuario) {
+	public ResponseEntity<UsuarioDTO> salvar(@RequestBody UsuarioDTO usuario) {
 		UsuarioDTO user = service.salvar(usuario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
 	}
 
 	@PutMapping("/{idusuario}")
-	public ResponseEntity<UsuarioDTO> alterar(@PathVariable("idusuario") int idusuario, @RequestBody Usuario usuario) {
+	public ResponseEntity<UsuarioDTO> alterar(@PathVariable("idusuario") int idusuario, @RequestBody UsuarioDTO usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idusuario, usuario));
 	}
 

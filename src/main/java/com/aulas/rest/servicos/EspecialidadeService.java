@@ -14,42 +14,48 @@ import com.aulas.rest.servicos.excecoes.RecursoNaoEncontrado;
 
 @Service
 public class EspecialidadeService {
-   @Autowired	
-   EspecialidadeRepositorio repo;
-	
+
+	@Autowired	
+	private EspecialidadeRepositorio repo;
+
 	public List<EspecialidadeDTO> listarTodos(){
 		List<Especialidade> especialidades = repo.findAll();
-		
+
 		List<EspecialidadeDTO> especialidadesDTO = new ArrayList<>();		
-		
+
 		for(Especialidade esp : especialidades) {
 			especialidadesDTO.add(new EspecialidadeDTO(esp));
 		}		
 		return especialidadesDTO;
 	}
-	
-	public EspecialidadeDTO salvar(Especialidade especialidade) {
-		Especialidade esp = repo.save(especialidade);
+
+	public EspecialidadeDTO salvar(EspecialidadeDTO especialidade) {
+		Especialidade esp = repo.save(new Especialidade(especialidade));
 		return new EspecialidadeDTO(esp);
 	}
-	
+
 	public EspecialidadeDTO pegarEspecialidade(int idespecialidade) {
-	  Optional<Especialidade> obj = repo.findById(idespecialidade);	
-	  Especialidade esp = obj.orElseThrow(() -> new RecursoNaoEncontrado("Especialidade não encontrada."));
-	  return new EspecialidadeDTO(esp);
+		Optional<Especialidade> obj = repo.findById(idespecialidade);	
+		Especialidade esp = obj.orElseThrow(() -> new RecursoNaoEncontrado("Especialidade não encontrada."));
+		return new EspecialidadeDTO(esp);
 	}
-	
-	public EspecialidadeDTO alterar(int idespecialidade, Especialidade especialidade) {
+
+	public EspecialidadeDTO alterar(int idespecialidade, EspecialidadeDTO especialidade) {
 		Optional<Especialidade > obj = repo.findById(idespecialidade);
 		Especialidade esp = obj.orElseThrow(() -> new RecursoNaoEncontrado("Especialidade não encontrada."));
-	
+
 		esp.setEspecialidade(especialidade.getEspecialidade());
-;
 		esp = repo.save(esp);
 		return new EspecialidadeDTO(esp);
 	}
-	
+
 	public void excluir(int idespecialidade) {
 		repo.deleteById(idespecialidade);
+	}
+	
+	public EspecialidadeDTO buscaPorNome(String especialidade) {
+		Optional<Especialidade> obj = repo.findByEspecialidade(especialidade);
+		Especialidade esp = obj.orElseThrow(() -> new RecursoNaoEncontrado("Especialidade não encontrada."));
+		return new EspecialidadeDTO(esp);
 	}
 }

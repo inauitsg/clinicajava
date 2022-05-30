@@ -1,26 +1,43 @@
 package com.aulas.rest.entidades;
 
-import java.util.List;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+
+import com.aulas.rest.dto.EspecialidadeDTO;
 
 
 @Entity
+@Table(name = "tb_especialidade")
 public class Especialidade {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 	private String especialidade;
-	
 
-	public int getId() {
+
+	public Especialidade() {
+
+	}
+
+	public Especialidade(Integer id, String especialidade)  {
+		this.id = id;
+		this.especialidade = especialidade;
+	}
+
+	public Especialidade(EspecialidadeDTO especialidade) {
+		this.id = especialidade.getId();
+		this.especialidade = especialidade.getEspecialidade();
+	}
+
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -31,15 +48,4 @@ public class Especialidade {
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
 	}
-
-	public Especialidade(int id, String especialidade)  {
-		this.id = id;
-		this.especialidade = especialidade;
-		}
-
-	public Especialidade() {
-
-	}
-
-	
 }
