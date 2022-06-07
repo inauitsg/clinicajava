@@ -5,6 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.aulas.rest.dto.UsuarioDTO;
@@ -13,7 +17,7 @@ import com.aulas.rest.repositorios.UsuarioRepositorio;
 import com.aulas.rest.servicos.excecoes.RecursoNaoEncontrado;
 
 @Service
-public class UsuarioService {
+public class UsuarioService implements UserDetailsService{
 	
 	@Autowired	
 	private UsuarioRepositorio repo;
@@ -28,19 +32,24 @@ public class UsuarioService {
 		}		
 		return usuariosDTO;
 	}
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
+	
 
 	public UsuarioDTO salvar(UsuarioDTO usuario) {
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		Usuario user = repo.save(new Usuario(usuario));
+	
 		return new UsuarioDTO(user);
 	}
 
-	public UsuarioDTO pegarUsuario(int idusuario) {
+	public UsuarioDTO pegarUsuario(Long idusuario) {
 		Optional<Usuario> obj = repo.findById(idusuario);	
 		Usuario user = obj.orElseThrow(() -> new RecursoNaoEncontrado("Usuário não encontrado."));
 		return new UsuarioDTO(user);
 	}
 
-	public UsuarioDTO alterar(int idusuario, UsuarioDTO usuario) {
+	public UsuarioDTO alterar(Long idusuario, UsuarioDTO usuario) {
 		Optional<Usuario> obj = repo.findById(idusuario);
 		Usuario user = obj.orElseThrow(() -> new RecursoNaoEncontrado("Usuário não encontrado."));
 
@@ -51,7 +60,17 @@ public class UsuarioService {
 		return new UsuarioDTO(user);
 	}
 
-	public void excluir(int idusuario) {
+	public void excluir(Long idusuario) {
 		repo.deleteById(idusuario);
 	}
+
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		Usuario usuario = repo.findByEmail(username);
+		if(usuario == null) {
+			throw new UsernameNotFoundException("Usuário não encontrado");
+		}
+		return usuario;
+	}
+	
 }

@@ -29,7 +29,7 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/{idusuario}")
-	public ResponseEntity<UsuarioDTO> pegarUsuario(@PathVariable("idusuario") int idusuario) {
+	public ResponseEntity<UsuarioDTO> pegarUsuario(@PathVariable("idusuario") Long idusuario) {
 		UsuarioDTO userDTO = service.pegarUsuario(idusuario);
 		return ResponseEntity.status(HttpStatus.OK).body(userDTO);
 	}
@@ -41,12 +41,12 @@ public class UsuarioController {
 	}
 
 	@PutMapping("/{idusuario}")
-	public ResponseEntity<UsuarioDTO> alterar(@PathVariable("idusuario") int idusuario, @RequestBody UsuarioDTO usuario) {
+	public ResponseEntity<UsuarioDTO> alterar(@PathVariable("idusuario") Long idusuario, @RequestBody UsuarioDTO usuario) {
 		return ResponseEntity.status(HttpStatus.OK).body(service.alterar(idusuario, usuario));
 	}
 
 	@DeleteMapping("/{idusuario}")
-	public ResponseEntity<UsuarioDTO> excluir(@PathVariable("idusuario") int idusuario) {
+	public ResponseEntity<UsuarioDTO> excluir(@PathVariable("idusuario") Long idusuario) {
 		try {
 			service.excluir(idusuario);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
