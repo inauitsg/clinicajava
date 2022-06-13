@@ -34,7 +34,7 @@ public class UsuarioController {
 		return ResponseEntity.status(HttpStatus.OK).body(userDTO);
 	}
 
-	@PostMapping("/{idusuario}")
+	@PostMapping
 	public ResponseEntity<UsuarioDTO> salvar(@RequestBody UsuarioDTO usuario) {
 		UsuarioDTO user = service.salvar(usuario);
 		return ResponseEntity.status(HttpStatus.CREATED).body(user);
