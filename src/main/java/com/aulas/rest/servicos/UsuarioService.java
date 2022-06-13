@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -37,10 +38,17 @@ public class UsuarioService implements UserDetailsService{
 	
 
 	public UsuarioDTO salvar(UsuarioDTO usuario) {
+		
+		try {
 		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
 		Usuario user = repo.save(new Usuario(usuario));
 	
 		return new UsuarioDTO(user);
+	}
+		catch(Exception e) {
+			
+			throw new DataIntegrityViolationException("Email já cadastrado");
+		}
 	}
 
 	public UsuarioDTO pegarUsuario(Long idusuario) {
